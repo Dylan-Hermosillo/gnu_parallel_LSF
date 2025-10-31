@@ -1,0 +1,1 @@
+# A script tool to automatically make SRR gnu parallel scripts for prefetching & fasterq-dumping.gh 

@@ -1,0 +1,8 @@
+./results/bowtie2_2.5.4.sh
+./results/bracken_3.1.sh
+./results/fastqc_0.12.1.sh
+./results/kraken2_2.1.6.sh
+./results/megahit_1.2.9.sh
+./results/spades_4.2.0.sh
+./results/sra-tools_3.2.1.sh
+./results/trimmomatic_0.40.sh
