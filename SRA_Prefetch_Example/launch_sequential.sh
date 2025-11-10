@@ -36,22 +36,6 @@ JOBID1=$(bsub -J "$JOB1[1-$NUM_JOB]%$CHUNK_SIZE" \
      < ${SCRIPTS_DIR}/01_SRA_PREFETCH.sh | awk '{print $2}' | tr -d '<>[]')
 echo "Submitted Job 1 array with id $JOBID1"
 
-# Job 2: OPTIONAL
-: ' Potential for a second job  that is dependent on the first job
-echo "Launching Job 2: [Task Description Here]"
-JOBID2=$(bsub -J "$JOB2[1-$NUM_JOB]%$CHUNK_SIZE" \
-     -n $JOB2_CPUS \
-     -q $JOB2_QUEUE \
-     -R "rusage[mem=$JOB2_MEMORY]" \
-     -o "${PAR_OUT}/parallel.task.%J.%I.log" \
-     -e "${PAR_ERR}/parallel.task.%J.%I.err" \
-     -w "done($JOBID1)" \
-     -W $JOB2_TIME \
-     < ${PAR_SCRIPTS_DIR}/02_parallel_something.sh | awk '{print $2}' | tr -d '<>[]')
-echo "Submitted Job 2 array with id $JOBID2"
-# --- End Launch Pipeline Steps ---
-'
-
 # Final Parallel Execution
 echo "launching Job 2: Parallel Task Execution"
 echo "Waiting for Job 1 array $JOBID1 to complete..."
