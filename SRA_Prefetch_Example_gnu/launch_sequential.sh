@@ -35,24 +35,24 @@ JOBID1=$(bsub -J "$JOB1[1-$NUM_JOB]%$CHUNK_SIZE" \
      -W $JOB1_TIME \
      < ${SCRIPTS_DIR}/01_SRA_PREFETCH.sh | awk '{print $2}' | tr -d '<>[]')
 echo "Submitted Job 1 array with id $JOBID1"
-
-# Final Parallel Execution
-echo "launching Job 2: Parallel Task Execution"
-echo "Waiting for Job 1 array $JOBID1 to complete..."
 bwait -w "done($JOBID1)"
 
-    # Parameters for GNU parallel execution
+# Final Parallel Execution
+echo "Waiting for Job 1 array $JOBID1 to complete..."
+
+echo "Launching parallel script"
+
+# Parameters for GNU parallel execution
 CPUS=$JOB2_CPUS
 AGGREGATE_FILE="${SCRIPTS_DIR}/aggregate_prefetch_wrappers.txt"
-    # Run GNU parallel on the aggregated wrapper scripts
+# Run with xargs
 if [[ -s "$AGGREGATE_FILE" ]]; then
-    echo "Running GNU Parallel on the aggregated wrapper scripts..."
-    ${PARALLEL} --verbose \
-                --joblog ${SCRIPTS_DIR}/parallel_joblog.txt \
-                -j ${CPUS} \
-                bash -l {} :::: ${AGGREGATE_FILE}
-    
+    echo "Running parallel execution on the aggregated wrapper scripts..."
+    echo "Aggregate file contains $(wc -l < $AGGREGATE_FILE) wrapper scripts"
+    cat $AGGREGATE_FILE | xargs -P $CPUS -I {} bash {}
+    echo "Execution completed. Check individual logs in ${SRA_OUT}/ and ${SRA_ERR}/"
 else
     echo "Warning: Aggregate wrapper file is missing or empty. Nothing to run."
 fi
+
 echo "Completed Job 2: Parallel Task Execution"

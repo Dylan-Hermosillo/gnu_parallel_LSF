@@ -31,6 +31,10 @@ export CHUNK_SIZE=50
 
 # PART 2 -- GNU Parallel Execution
 # 00 Parallel Tool & Tool to run (Prefetch)
+export CONT=/rs1/shares/brc/admin/containers/images # main image directory
+export SRA_TOOLKIT=$CONT/quay.io_biocontainers_sra-tools:3.2.1--h4304569_1.sif
+export APPT=/usr/local/apps/apptainer/1.4.2-1/bin/apptainer
+
 export PARALLEL="/rs1/shares/brc/admin/tools/parallel-20250922/bin/parallel"
 export PREFETCH_LOAD="/rs1/shares/brc/admin/containers/modules/sra-tools/3.2.1"
 export PREFETCH_RUN="/rs1/shares/brc/admin/containers/tools/sra-tools/3.2.1/bin/prefetch"
@@ -47,9 +51,8 @@ export SRA="$WORKING_DIR/02_SRA_prefetch"
 export SRA_OUT="$SRA/out"
 export SRA_ERR="$SRA/err"
 
-#03 Mod configurations 
+#03 Mod configurations
 export JOB2_CPUS=6 # num of cpus for parallel execution
-
 
 # Some custom functions for our scripts
 #
